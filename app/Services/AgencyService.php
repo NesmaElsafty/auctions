@@ -36,6 +36,8 @@ class AgencyService
         $user = auth()->user();
         $data['user_id'] = $user->id;
         $agency = $this->find($id);
+
+        
         // data unset documents
         unset($data['documents']);
         $agency->update($data);

@@ -81,7 +81,13 @@ class AgencyController extends Controller
                 'documents.*' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png,webp', 'max:10240'], // 10MB max
             ]);
 
-            $agency = $this->service->update($agency, $request->all());
+            $user = $request->user();
+            $agency = $this->service->find($agency);
+            if($user->id !== $agency->user_id) {
+            return response()->json(['message' => 'You are not authorized to update this agency'], 403);
+            }
+
+            $agency = $this->service->update($agency->id, $request->all());
             
             $files = $request->file('documents');
             // upload documents
@@ -105,9 +111,15 @@ class AgencyController extends Controller
         }
     }
 
-    public function destroy(int $agency)
+    public function destroy(Request $request, int $agency)
     {
         try {
+            $user = $request->user();
+            $agency = $this->service->find($agency);
+            if($user->id !== $agency->user_id) {
+            return response()->json(['message' => 'You are not authorized to delete this agency'], 403);
+            }
+
             $this->service->delete($agency);
             return response()->json(['message' => 'Agency deleted successfully']);
         } catch (Exception $e) {
