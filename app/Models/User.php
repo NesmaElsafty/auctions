@@ -56,4 +56,9 @@ class User extends Authenticatable implements HasMedia
             ->useDisk('public')
             ->singleFile();
     }
+
+    public function agency()
+    {
+        return $this->hasMany(Agency::class);
+    }
 }

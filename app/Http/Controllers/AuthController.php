@@ -21,6 +21,7 @@ class AuthController extends Controller
                 'phone' => ['required', 'string', 'max:255'],
                 'address' => ['required', 'string', 'max:500'],
                 'summary' => ['nullable', 'string'],
+                'link' => ['nullable', 'string', 'max:255'],
                 'password' => ['required', 'string', 'min:6'],
                 'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
                 'type' => ['required', 'string', 'in:user,agent,admin'],
@@ -32,6 +33,7 @@ class AuthController extends Controller
                 'phone' => $validated['phone'],
                 'address' => $validated['address'],
                 'summary' => $validated['summary'] ?? null,
+                'link' => $validated['link'] ?? null,
                 'password' => Hash::make($validated['password']),
                 'type' => $validated['type'],
                 'is_active' => true,
@@ -124,9 +126,16 @@ class AuthController extends Controller
                 'phone' => ['sometimes', 'string', 'max:255'],
                 'address' => ['sometimes', 'string', 'max:500'],
                 'summary' => ['nullable', 'string'],
+                'link' => ['nullable', 'string', 'max:255'],
                 'password' => ['nullable', 'string', 'min:6'],
                 'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             ]);
+
+            if (array_key_exists('link', $validated) && $validated['link']) {
+                $validated['link'] = $validated['link'];
+            } else {
+                unset($validated['link']);
+            }
 
             if (array_key_exists('password', $validated) && $validated['password']) {
                 $validated['password'] = Hash::make($validated['password']);
