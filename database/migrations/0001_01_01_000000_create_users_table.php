@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->enum('type', ['user', 'admin', 'agent'])->default('user');
             $table->boolean('is_active')->default(true);
-            // softdelete
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
