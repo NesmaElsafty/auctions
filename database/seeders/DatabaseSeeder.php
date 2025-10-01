@@ -51,5 +51,11 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
             'password' => Hash::make('123456'),
         ]);
+
+        // Seed agencies for agent users
+        $this->call(AgencySeeder::class);
+
+        // Seed bank accounts for all users
+        $this->call(BankAccountSeeder::class);
     }
 }

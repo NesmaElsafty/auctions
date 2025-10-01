@@ -31,6 +31,9 @@ class UserResource extends JsonResource
                 $media = $this->getFirstMedia('avatar');
                 return $media ? $media->getFullUrl() : null;
             }),
+
+            'bank_account' => new BankAccountResource($this->whenLoaded('bank_account')),
+            'agencies' => AgencyResource::collection($this->whenLoaded('agencies')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

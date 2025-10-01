@@ -61,4 +61,9 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Agency::class);
     }
+
+    public function bank_account()
+    {
+        return $this->hasOne(BankAccount::class);
+    }
 }

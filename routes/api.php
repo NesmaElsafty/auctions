@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AgencyController;
+use App\Http\Controllers\BankAccountController;
 
 Route::match(['GET', 'POST'], '/ping', function () {
     return ['ok' => true];
@@ -20,4 +21,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/deleteAvatar', [AuthController::class, 'deleteAvatar']);
 
     Route::apiResource('agencies', AgencyController::class);
+
+    Route::get('/bankAccount', [BankAccountController::class, 'index']);
+    Route::post('/bankAccount', [BankAccountController::class, 'store']);
+    Route::delete('/bankAccount', [BankAccountController::class, 'destroy']);
+
 });
