@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\UserController;
 
 Route::match(['GET', 'POST'], '/ping', function () {
     return ['ok' => true];
@@ -25,5 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/bankAccount', [BankAccountController::class, 'index']);
     Route::post('/bankAccount', [BankAccountController::class, 'store']);
     Route::delete('/bankAccount', [BankAccountController::class, 'destroy']);
+
+    Route::get('/users', [UserController::class, 'index']);
 
 });
