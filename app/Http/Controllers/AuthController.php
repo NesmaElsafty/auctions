@@ -157,6 +157,28 @@ class AuthController extends Controller
         }
     }
 
+    // change password
+    public function changePassword(Request $request)
+    {
+        try {
+            $request->validate([
+                'password' => ['required', 'string', 'min:6'],
+                'new_password' => ['required', 'string', 'min:6'],
+            ]);
+
+            $user = auth()->user();
+            if (!Hash::check($request->password, $user->password)) {
+                return response()->json(['message' => 'Invalid password'], 401);
+            }
+
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+            return response()->json(['message' => 'Password changed successfully', 'user' => new UserResource($user->fresh())]);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Password change failed', 'error' => $e->getMessage()], 500);
+        }
+    }
+
     public function uploadAvatar(Request $request)
     {
         try {

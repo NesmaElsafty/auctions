@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/profile', [AuthController::class, 'updateProfile']);
     Route::post('/uploadAvatar', [AuthController::class, 'uploadAvatar']);
     Route::delete('/deleteAvatar', [AuthController::class, 'deleteAvatar']);
+    Route::post('/changePassword', [AuthController::class, 'changePassword']);
 
     Route::apiResource('agencies', AgencyController::class);
 
