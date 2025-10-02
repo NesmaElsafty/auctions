@@ -52,12 +52,9 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123456'),
         ]);
 
-        // Generate 50 additional users with random dates (last 3 months)
-        // This also creates agencies for agents and bank accounts for all users
         $this->call(UsersSeeder::class);
-
-        // Create agencies and bank accounts for the existing Saudi users
         $this->createRelationshipsForExistingUsers();
+        $this->call(ContactUsSeeder::class);
     }
 
     /**

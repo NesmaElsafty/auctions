@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ContactUsController;
 
 Route::match(['GET', 'POST'], '/ping', function () {
     return ['ok' => true];
@@ -13,6 +14,7 @@ Route::match(['GET', 'POST'], '/ping', function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/contactUs', [ContactUsController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -32,4 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users/{id}', [UserController::class, 'show']);
     Route::post('/usersBulkActions', [UserController::class, 'bulkActions']);
     Route::get('/blockList', [UserController::class, 'blockList']);
+
+    Route::put('/contactUs', [ContactUsController::class, 'update']);
+
 });
