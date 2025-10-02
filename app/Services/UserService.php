@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
+use App\Helpers\ExportHelper;
 class UserService
 {
     public function users($data)
@@ -115,6 +115,70 @@ class UserService
         }
         
         return round((($newValue - $oldValue) / $oldValue) * 100, 2);
+    }
+
+    // block users (soft delete it)
+
+    public function block($ids)
+    {
+        User::whereIn('id', $ids)->delete();
+        return true;
+    }
+
+    public function unblock($ids)
+    {
+        User::whereIn('id', $ids)->restore();
+        return true;
+    }
+
+    public function activationToggle($ids)
+    {
+        foreach($ids as $id) {
+            $user = User::find($id);
+            $user->is_active = !$user->is_active;
+            $user->save();
+        }
+        return true;
+    }
+
+    public function export($ids)
+    {
+        $users = User::whereIn('id', $ids)->get();
+        $csvData = [];
+        foreach($users as $user) {
+            if($user->type == 'user') {
+                $csvData[] = [
+                    'name' => $user->name,
+                    'national_id' => $user->national_id,
+                    'phone' => $user->phone,
+                    'address' => $user->address,
+                    // 'auctions' => $user->auctions->count() ?? 0,
+                    // 'purchases' => $user->purchases->count() ?? 0,
+                    'is_active' => $user->is_active,
+                    'created_at' => $user->created_at,
+                ];
+            }
+
+            if($user->type == 'agent') {
+                $csvData[] = [
+                    'company_name' => $user->agencies?->pluck('name')->implode(','),
+                    'name' => $user->name,
+                    'national_id' => $user->national_id,
+                    'phone' => $user->phone,
+                    'address' => $user->address,
+                    // 'auctions' => $user->auctions->count() ?? 0,
+                    // 'purchases' => $user->purchases->count() ?? 0,
+                    'is_active' => $user->is_active,
+                    'created_at' => $user->created_at,
+                ];
+            }
+        }
+
+       $currentUser = auth()->user();
+
+        $filename = 'users_export_' . now()->format('Ymd_His') . '.csv';
+        $media = ExportHelper::exportToMedia($csvData, $currentUser, 'exports', $filename);
+        return $media->getFullUrl();
     }
 }
 
