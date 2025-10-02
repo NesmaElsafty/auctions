@@ -55,6 +55,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersSeeder::class);
         $this->createRelationshipsForExistingUsers();
         $this->call(ContactUsSeeder::class);
+        $this->call(TermSeeder::class);
     }
 
     /**

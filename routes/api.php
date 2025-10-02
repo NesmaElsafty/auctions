@@ -7,6 +7,7 @@ use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\TermController;
 
 Route::match(['GET', 'POST'], '/ping', function () {
     return ['ok' => true];
@@ -15,6 +16,9 @@ Route::match(['GET', 'POST'], '/ping', function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/contactUs', [ContactUsController::class, 'index']);
+Route::get('/terms', [TermController::class, 'index']);
+Route::get('/terms/{id}', [TermController::class, 'show']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -36,5 +40,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/blockList', [UserController::class, 'blockList']);
 
     Route::put('/contactUs', [ContactUsController::class, 'update']);
+
+    // terms
+    Route::post('/terms', [TermController::class, 'store']);
+    Route::put('/terms/{id}', [TermController::class, 'update']);
+    Route::delete('/terms/{id}', [TermController::class, 'destroy']);
+    Route::post('/termBulkActions', [TermController::class, 'bulkActions']);
+
+
 
 });
