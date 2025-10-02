@@ -28,5 +28,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/bankAccount', [BankAccountController::class, 'destroy']);
 
     Route::get('/users', [UserController::class, 'index']);
-
+    Route::get('/users/{id}', [UserController::class, 'show']);
 });
