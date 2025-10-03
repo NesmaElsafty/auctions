@@ -8,6 +8,8 @@ use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\TermController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\AlertController;
 
 Route::match(['GET', 'POST'], '/ping', function () {
     return ['ok' => true];
@@ -47,6 +49,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/terms/{id}', [TermController::class, 'destroy']);
     Route::post('/termBulkActions', [TermController::class, 'bulkActions']);
 
+    // notifications
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::get('/notifications/{id}', [NotificationController::class, 'show']);
+    Route::post('/notifications', [NotificationController::class, 'store']);
+    Route::put('/notifications/{id}', [NotificationController::class, 'update']);
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
+    // Route::post('/notificationsBulkActions', [NotificationController::class, 'bulkActions']);
 
-
+    // alerts
+    Route::get('/alerts', [AlertController::class, 'index']);
+    Route::get('/alerts/{id}', [AlertController::class, 'show']);
+    Route::post('/readToggle/{id}', [AlertController::class, 'readToggle']);
+    Route::delete('/alerts/{id}', [AlertController::class, 'destroy']);
 });

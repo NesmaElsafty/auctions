@@ -66,4 +66,14 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasOne(BankAccount::class);
     }
+
+    public function notifications()
+    {
+        return $this->belongsToMany(Notification::class, 'notification_users', 'user_id', 'notification_id');
+    }
+
+    public function alerts()
+    {
+        return $this->hasMany(Alert::class);
+    }
 }
