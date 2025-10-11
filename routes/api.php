@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\TermController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AlertController;
 
 Route::match(['GET', 'POST'], '/ping', function () {
@@ -20,6 +21,10 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/contactUs', [ContactUsController::class, 'index']);
 Route::get('/terms', [TermController::class, 'index']);
 Route::get('/terms/{id}', [TermController::class, 'show']);
+
+// categories
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -62,4 +67,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/alerts/{id}', [AlertController::class, 'show']);
     Route::post('/readToggle/{id}', [AlertController::class, 'readToggle']);
     Route::delete('/alerts/{id}', [AlertController::class, 'destroy']);
+
+    // categories
+
+    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::put('/categories/{id}', [CategoryController::class, 'update']);
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+    // Route::post('/categoriesBulkActions', [CategoryController::class, 'bulkActions']);
 });
