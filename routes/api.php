@@ -11,6 +11,7 @@ use App\Http\Controllers\TermController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AlertController;
+use App\Http\Controllers\SubCategoryController;
 
 Route::match(['GET', 'POST'], '/ping', function () {
     return ['ok' => true];
@@ -26,6 +27,10 @@ Route::get('/terms/{id}', [TermController::class, 'show']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{id}', [CategoryController::class, 'show']);
 
+// sub categories
+Route::get('/subCategories', [SubCategoryController::class, 'index']);
+Route::get('/subCategories/{id}', [SubCategoryController::class, 'show']);
+Route::get('/subCategoriesByCategoryId', [SubCategoryController::class, 'getSubCategoriesByCategoryId']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -74,4 +79,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/categories/{id}', [CategoryController::class, 'update']);
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
     // Route::post('/categoriesBulkActions', [CategoryController::class, 'bulkActions']);
+
+    // sub categories
+    Route::post('/subCategories', [SubCategoryController::class, 'store']);
+    Route::put('/subCategories/{id}', [SubCategoryController::class, 'update']);
+    Route::delete('/subCategories/{id}', [SubCategoryController::class, 'destroy']);
 });

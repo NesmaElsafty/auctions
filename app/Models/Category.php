@@ -14,9 +14,8 @@ class Category extends Model implements HasMedia
     protected $guarded = [];
     protected $table = 'categories';
 
-    // public function auctions()
-    // public function auctions()
-    // {
-    //     return $this->hasMany(Auction::class);
-    // }
+    public function subCategories()
+    {
+        return $this->hasMany(SubCategory::class);
+    }
 }
