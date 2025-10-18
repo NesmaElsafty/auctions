@@ -12,6 +12,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\SubCategoryInputController;
+use App\Http\Controllers\SelectableDataController;
 
 Route::match(['GET', 'POST'], '/ping', function () {
     return ['ok' => true];
@@ -31,6 +33,17 @@ Route::get('/categories/{id}', [CategoryController::class, 'show']);
 Route::get('/subCategories', [SubCategoryController::class, 'index']);
 Route::get('/subCategories/{id}', [SubCategoryController::class, 'show']);
 Route::get('/subCategoriesByCategoryId', [SubCategoryController::class, 'getSubCategoriesByCategoryId']);
+
+// sub category inputs
+Route::get('/subCategoryInputs', [SubCategoryInputController::class, 'index']);
+Route::get('/subCategoryInputs/{id}', [SubCategoryInputController::class, 'show']);
+Route::get('/subCategoryInputsBySubCategoryId', [SubCategoryInputController::class, 'getSubCategoryInputsBySubCategoryId']);
+
+
+// selectable data
+Route::get('/selectableData', [SelectableDataController::class, 'index']);
+Route::get('/selectableData/{id}', [SelectableDataController::class, 'show']);
+Route::get('/inputOptions', [SelectableDataController::class, 'getInputOptions']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -84,4 +97,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/subCategories', [SubCategoryController::class, 'store']);
     Route::put('/subCategories/{id}', [SubCategoryController::class, 'update']);
     Route::delete('/subCategories/{id}', [SubCategoryController::class, 'destroy']);
+
+    // sub category inputs
+    Route::post('/subCategoryInputs', [SubCategoryInputController::class, 'store']);
+    Route::put('/subCategoryInputs/{id}', [SubCategoryInputController::class, 'update']);
+    Route::delete('/subCategoryInputs/{id}', [SubCategoryInputController::class, 'destroy']);
+
+    // selectable data
+    Route::post('/selectableData', [SelectableDataController::class, 'store']);
+    Route::put('/selectableData/{id}', [SelectableDataController::class, 'update']);
+    Route::delete('/selectableData/{id}', [SelectableDataController::class, 'destroy']);
 });

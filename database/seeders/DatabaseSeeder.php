@@ -58,6 +58,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TermSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(SubCategorySeeder::class);
+        $this->call(SubCategoryInputSeeder::class);
+        $this->call(SelectableDataSeeder::class);
     }
 
     /**
