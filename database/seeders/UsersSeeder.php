@@ -53,8 +53,8 @@ class UsersSeeder extends Seeder
      */
     private function generateUsersByType(): void
     {
-        $userTypes = ['user', 'agent', 'admin'];
-        $usersPerType = [30, 15, 5]; // 30 users, 15 agents, 5 admins
+        $userTypes = ['user', 'admin'];
+        $usersPerType = [30, 5]; // 30 users, 5 admins
 
         foreach ($userTypes as $index => $type) {
             $count = $usersPerType[$index];
@@ -71,10 +71,6 @@ class UsersSeeder extends Seeder
                 // Create bank account for all users (user, agent, admin)
                 $this->createBankAccountForUser($user);
 
-                // Create agencies for agent users only
-                if ($type === 'agent') {
-                    $this->createAgenciesForAgent($user);
-                }
             }
         }
     }
@@ -113,13 +109,6 @@ class UsersSeeder extends Seeder
                 'Looking for quality products at good prices.',
                 'Active buyer in various categories.'
             ],
-            'agent' => [
-                'Professional real estate agent with 5+ years experience.',
-                'Specialized in luxury properties and commercial real estate.',
-                'Certified agent helping clients find their dream homes.',
-                'Expert in property valuation and market analysis.',
-                'Dedicated to providing excellent customer service.'
-            ],
             'admin' => [
                 'Platform administrator ensuring smooth operations.',
                 'System admin managing user accounts and content.',
@@ -151,25 +140,6 @@ class UsersSeeder extends Seeder
     }
 
     /**
-     * Create agencies for an agent user (1 or 2 agencies)
-     */
-    private function createAgenciesForAgent(User $agent): void
-    {
-        // Each agent gets 1 or 2 agencies (random)
-        $agencyCount = rand(1, 2);
-        
-        for ($i = 0; $i < $agencyCount; $i++) {
-            Agency::create([
-                'user_id' => $agent->id,
-                'name' => $this->generateAgencyName($agent->name, $i + 1),
-                'number' => $this->generateAgencyNumber(),
-                'address' => $this->generateSaudiAddress(),
-                'date' => $this->generateAgencyDate(),
-                'created_at' => $agent->created_at,
-                'updated_at' => $agent->updated_at,
-            ]);
-        }
-    }
 
     /**
      * Generate a Saudi bank name

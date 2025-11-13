@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('summary')->nullable();
             $table->string('link')->nullable();
             $table->string('password')->nullable();
-            $table->enum('type', ['user', 'admin', 'agent'])->default('user');
+            $table->enum('type', ['user', 'admin'])->default('user');
             $table->boolean('is_active')->default(true);
             $table->softDeletes();
             $table->rememberToken();

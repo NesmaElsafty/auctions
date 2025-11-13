@@ -28,18 +28,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123456'),
         ]);
 
-        // generate saudi data for agent
-        User::factory()->create([
-            'name' => 'Saudi Agent',
-            'national_id' => '12345678901235',
-            'phone' => '+966500000001',
-            'address' => 'Riyadh, SA',
-            'summary' => 'I am a Saudi agent',
-            'type' => 'agent',
-            'is_active' => true,
-            'password' => Hash::make('123456'),
-        ]);
-
         // generate saudi data for admin
         User::factory()->create([
             'name' => 'Saudi Admin',
@@ -77,11 +65,6 @@ class DatabaseSeeder extends Seeder
         foreach ($existingUsers as $user) {
             // Create bank account for all users
             $this->createBankAccountForUser($user);
-
-            // Create agencies for agent users only
-            if ($user->type === 'agent') {
-                $this->createAgenciesForAgent($user);
-            }
         }
     }
 
@@ -97,25 +80,6 @@ class DatabaseSeeder extends Seeder
             'bank_address' => $this->generateBankAddress(),
             'IBAN' => $this->generateSaudiIBAN(),
         ]);
-    }
-
-    /**
-     * Create agencies for an agent user (1 or 2 agencies)
-     */
-    private function createAgenciesForAgent($agent): void
-    {
-        // Each agent gets 1 or 2 agencies (random)
-        $agencyCount = rand(1, 2);
-        
-        for ($i = 0; $i < $agencyCount; $i++) {
-            \App\Models\Agency::create([
-                'user_id' => $agent->id,
-                'name' => $this->generateAgencyName($agent->name, $i + 1),
-                'number' => $this->generateAgencyNumber(),
-                'address' => $this->generateSaudiAddress(),
-                'date' => $this->generateAgencyDate(),
-            ]);
-        }
     }
 
     /**

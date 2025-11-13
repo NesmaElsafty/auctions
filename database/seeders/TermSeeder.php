@@ -41,7 +41,7 @@ class TermSeeder extends Seeder
                 'content' => 'Terms and conditions for agents using our platform to conduct auctions.',
                 'is_active' => true,
                 'type' => 'term',
-                'segment' => 'agent',
+                'segment' => 'user',
                 'created_at' => Carbon::now()->subDays(80),
                 'updated_at' => Carbon::now()->subDays(20),
             ],

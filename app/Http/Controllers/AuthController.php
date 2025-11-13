@@ -24,7 +24,7 @@ class AuthController extends Controller
                 'link' => ['nullable', 'string', 'max:255'],
                 'password' => ['required', 'string', 'min:6'],
                 'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-                'type' => ['required', 'string', 'in:user,agent,admin'],
+                'type' => ['required', 'string', 'in:user,admin'],
             ]);
 
             $user = User::create([

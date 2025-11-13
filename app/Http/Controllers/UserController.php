@@ -20,7 +20,7 @@ class UserController extends Controller
         try {
 
             $request->validate([
-                'type' => 'required|string|in:user,agent,admin',
+                'type' => 'required|string|in:user,admin',
             ]);
 
             $user = auth()->user();
@@ -89,7 +89,6 @@ class UserController extends Controller
                 'action' => 'required|string|in:block,unblock,activationToggle,export',
                 'ids' => 'nullable|array',
                 'ids.*' => 'required|string|exists:users,id',
-                'type' => 'nullable|string|in:user,agent',
             ]);
 
             $user = auth()->user();

@@ -26,14 +26,13 @@ class TermFactory extends Factory
     public function definition(): array
     {
         $types = ['term', 'privacy', 'faq'];
-        $segments = ['user', 'agent'];
         
         return [
             'title' => $this->faker->sentence(rand(3, 8)),
             'content' => $this->faker->paragraphs(rand(3, 8), true),
             'is_active' => $this->faker->boolean(80), // 80% chance of being active
             'type' => $this->faker->randomElement($types),
-            'segment' => $this->faker->randomElement($segments),
+            'segment' => 'user',
             'created_at' => $this->faker->dateTimeBetween('-3 months', 'now'),
             'updated_at' => function (array $attributes) {
                 return $this->faker->dateTimeBetween($attributes['created_at'], 'now');

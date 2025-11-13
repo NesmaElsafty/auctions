@@ -12,10 +12,15 @@ class Category extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia; 
     protected $guarded = [];
-    protected $table = 'categories';
+    protected $table = 'categories';  
 
     public function subCategories()
     {
         return $this->hasMany(SubCategory::class);
+    }
+
+    public function contracts()
+    {
+        return $this->hasMany(Contract::class);
     }
 }

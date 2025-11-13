@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('terms', function (Blueprint $table) {
+        Schema::create('contracts', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('content');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->string('file_path')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->enum('type', ['term', 'privacy','faq']);
-            $table->enum('segment', ['user', 'admin']);
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('terms');
+        Schema::dropIfExists('contracts');
     }
 };

@@ -14,6 +14,8 @@ use App\Http\Controllers\AlertController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\SubCategoryInputController;
 use App\Http\Controllers\SelectableDataController;
+use App\Http\Controllers\TryController;
+use App\Http\Controllers\ContractController;
 
 Route::match(['GET', 'POST'], '/ping', function () {
     return ['ok' => true];
@@ -44,6 +46,16 @@ Route::get('/subCategoryInputsBySubCategoryId', [SubCategoryInputController::cla
 Route::get('/selectableData', [SelectableDataController::class, 'index']);
 Route::get('/selectableData/{id}', [SelectableDataController::class, 'show']);
 Route::get('/inputOptions', [SelectableDataController::class, 'getInputOptions']);
+
+// Try controller routes for file operations
+Route::get('/readTextFile', [TryController::class, 'readTextFile']);
+Route::post('/writeTextFile', [TryController::class, 'writeTextFile']);
+Route::post('/appendTextFile', [TryController::class, 'appendTextFile']);
+Route::post('/generateNewFile', [TryController::class, 'generateNewFile']);
+Route::get('/listFiles', [TryController::class, 'listFiles']);
+Route::delete('/deleteFile', [TryController::class, 'deleteFile']);
+Route::get('/getDirectoryList', [TryController::class, 'getDirectoryList']);
+// Route::delete('/deleteMultipleFiles', [TryController::class, 'deleteMultipleFiles']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -107,4 +119,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/selectableData', [SelectableDataController::class, 'store']);
     Route::put('/selectableData/{id}', [SelectableDataController::class, 'update']);
     Route::delete('/selectableData/{id}', [SelectableDataController::class, 'destroy']);
+
+    // contracts
+    Route::post('/contracts', [ContractController::class, 'store']);
+    Route::get('/contracts', [ContractController::class, 'index']);
+    Route::get('/contracts/{id}', [ContractController::class, 'show']);
+    Route::put('/contracts/{id}', [ContractController::class, 'update']);
+    Route::delete('/contracts/{id}', [ContractController::class, 'destroy']);
 });

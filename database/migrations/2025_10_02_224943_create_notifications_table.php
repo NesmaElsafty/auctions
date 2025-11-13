@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->text('content')->nullable();
             $table->enum('status', ['sent', 'unsent', 'planned'])->default('planned');
-            $table->enum('segment', ['user', 'agent', 'admin'])->default('user');
+            $table->enum('segment', ['user', 'admin'])->default('user');
             $table->enum('type', ['notification', 'alert'])->default('notification');
             $table->timestamps();
         });
