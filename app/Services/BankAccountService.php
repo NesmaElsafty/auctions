@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\BankAccount;
+use App\Http\Resources\BankAccountResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class BankAccountService
@@ -13,17 +14,9 @@ class BankAccountService
         return $user->bank_account;
     }
 
-    public function create(array $data)
+    public function updateOrCreate(int $userId, array $data)
     {
-        $user = auth()->user();
-        $data['user_id'] = $user->id;
-        // update or create bank account if exist update else create
-        $bankAccount = $user->bank_account;
-        if ($bankAccount) {
-            $bankAccount->update($data);
-        } else {
-            $bankAccount = $user->bank_account()->create($data);
-        }
+        $bankAccount = BankAccount::updateOrCreate(['user_id' => $userId], $data);
         return $bankAccount;
     }
 

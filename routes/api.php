@@ -16,6 +16,7 @@ use App\Http\Controllers\SubCategoryInputController;
 use App\Http\Controllers\SelectableDataController;
 use App\Http\Controllers\TryController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\CategoryTermController;
 
 Route::match(['GET', 'POST'], '/ping', function () {
     return ['ok' => true];
@@ -67,9 +68,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('agencies', AgencyController::class);
 
-    Route::get('/bankAccount', [BankAccountController::class, 'index']);
-    Route::post('/bankAccount', [BankAccountController::class, 'store']);
-    Route::delete('/bankAccount', [BankAccountController::class, 'destroy']);
+    Route::get('bankAccount', [BankAccountController::class, 'index']);
+    Route::post('bankAccount', [BankAccountController::class, 'store']);
+    Route::delete('bankAccount', [BankAccountController::class, 'destroy']);
 
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/{id}', [UserController::class, 'show']);
@@ -83,6 +84,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/terms/{id}', [TermController::class, 'update']);
     Route::delete('/terms/{id}', [TermController::class, 'destroy']);
     Route::post('/termBulkActions', [TermController::class, 'bulkActions']);
+
+    // category terms
+    Route::get('/categoryTerms', [CategoryTermController::class, 'index']);
+    Route::get('/categoryTerms/{id}', [CategoryTermController::class, 'show']);
+    Route::post('/categoryTerms', [CategoryTermController::class, 'store']);
+    Route::put('/categoryTerms/{id}', [CategoryTermController::class, 'update']);
+    Route::delete('/categoryTerms/{id}', [CategoryTermController::class, 'destroy']);
+    // Route::post('/categoryTermsBulkActions', [CategoryTermController::class, 'bulkActions']);
 
     // notifications
     Route::get('/notifications', [NotificationController::class, 'index']);

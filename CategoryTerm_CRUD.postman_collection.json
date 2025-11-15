@@ -1,0 +1,518 @@
+{
+	"info": {
+		"_postman_id": "category-term-crud-collection",
+		"name": "CategoryTerm CRUD",
+		"description": "Complete CRUD operations for CategoryTerm API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.token || jsonData.data?.token) {",
+									"        pm.environment.set(\"auth_token\", jsonData.token || jsonData.data.token);",
+									"        pm.test(\"Token saved successfully\", function () {",
+									"            pm.expect(pm.environment.get(\"auth_token\")).to.not.be.undefined;",
+									"        });",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "CategoryTerm",
+			"item": [
+				{
+					"name": "Get All Category Terms",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"",
+									"pm.test(\"Response has data array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('data');",
+									"    pm.expect(jsonData.data).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categoryTerms?category_id=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categoryTerms"
+							],
+							"query": [
+								{
+									"key": "category_id",
+									"value": "1",
+									"description": "Category ID to filter category terms"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Single Category Term",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"",
+									"pm.test(\"Response has data object\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('data');",
+									"    pm.expect(jsonData.data).to.be.an('object');",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.id) {",
+									"        pm.environment.set(\"category_term_id\", jsonData.data.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categoryTerms/{{category_term_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categoryTerms",
+								"{{category_term_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Category Term",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"    pm.expect(jsonData.message).to.include('created successfully');",
+									"});",
+									"",
+									"pm.test(\"Response has data object\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('data');",
+									"    pm.expect(jsonData.data).to.be.an('object');",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.id) {",
+									"        pm.environment.set(\"category_term_id\", jsonData.data.id);",
+									"        pm.test(\"Category term ID saved to environment\", function () {",
+									"            pm.expect(pm.environment.get(\"category_term_id\")).to.not.be.undefined;",
+									"        });",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category_id\": 1,\n    \"title\": \"Sample Category Term Title\",\n    \"content\": \"This is the content of the category term. It can be a longer text description.\",\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categoryTerms",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categoryTerms"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Category Term",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"    pm.expect(jsonData.message).to.include('updated successfully');",
+									"});",
+									"",
+									"pm.test(\"Response has data object\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('data');",
+									"    pm.expect(jsonData.data).to.be.an('object');",
+									"});",
+									"",
+									"pm.test(\"Updated title matches\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.title) {",
+									"        pm.expect(jsonData.data.title).to.include('Updated');",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category_id\": 1,\n    \"title\": \"Updated Category Term Title\",\n    \"content\": \"This is the updated content of the category term.\",\n    \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categoryTerms/{{category_term_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categoryTerms",
+								"{{category_term_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Category Term",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"    pm.expect(jsonData.message).to.include('deleted successfully');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categoryTerms/{{category_term_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categoryTerms",
+								"{{category_term_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Bulk Actions (Update)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"    pm.expect(jsonData.message).to.include('bulk actions');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ids\": [1, 2, 3],\n    \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categoryTermsBulkActions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categoryTermsBulkActions"
+							]
+						},
+						"description": "Note: This endpoint is commented out in routes. Uncomment the route in api.php to use this."
+					}
+				},
+				{
+					"name": "Bulk Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"    pm.expect(jsonData.message).to.include('bulk deleted');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ids\": [1, 2, 3]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categoryTermsBulkDelete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categoryTermsBulkDelete"
+							]
+						},
+						"description": "Note: This endpoint needs to be added to routes. Currently not defined in api.php."
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "category_term_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

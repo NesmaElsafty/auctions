@@ -23,4 +23,9 @@ class Category extends Model implements HasMedia
     {
         return $this->hasMany(Contract::class);
     }
+
+    public function terms()
+    {
+        return $this->hasMany(CategoryTerm::class, 'category_id');
+    }
 }
